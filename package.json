@@ -1,0 +1,32 @@
+{
+  "name": "rental-backend-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./app/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.8.1",
+    "koa-body": "^4.1.1",
+    "koa-json-error": "^3.1.2",
+    "koa-jwt": "^3.6.0",
+    "koa-logger": "^3.2.1",
+    "koa-parameter": "^3.0.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.6.11",
+    "nodemon": "^1.19.2",
+    "uuid": "^3.3.3",
+    "cli-color": "^2.0.0",
+    "ip": "^1.1.5",
+    "koa-better-body": "^3.1.6",
+    "@koa/cors": "2",
+    "bcrypt": "^3.0.6",
+    "md5": "^2.2.1"
+  }
+}

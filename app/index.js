@@ -43,6 +43,7 @@ app.use(async (ctx, next) => {
 });
 /* import router */
 routerCombine(app);
+
 app.listen(3000, ip.address(), () => {
     console.log("app starting" + "this request ip  " + ip.address() + ":3000");
 });

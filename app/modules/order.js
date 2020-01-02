@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 const OrderSchema = new Schema({
     status: {
         type: String
-    }, // 订单状态 0 全部 1 待付款 2 待发货 3 待收货 4 待评价
+    }, // 订单状态 0 全部 1 待付款 2 待发货 3 待收货 4 待评价 5 单日达
     title: {
         type: String
     }, // 订单标题
@@ -28,9 +28,6 @@ const OrderSchema = new Schema({
     pic: {
         type: String
     }, // 订单图片
-    userId: {
-        type: Schema.Types.ObjectId,
-    }, // 对应的用户Id
 });
 const OrderModel = model("OrderModel", OrderSchema);
 module.exports = OrderModel;

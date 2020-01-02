@@ -15,6 +15,8 @@ const qs = require("querystring");
 const clc = require("cli-color");
 
 const formData = require("./utils/formidable");
+const redisClient = require('./redis/index');
+
 
 app.use(error());
 parameter(app); // 参数校验

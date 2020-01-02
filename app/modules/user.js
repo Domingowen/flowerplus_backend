@@ -1,3 +1,8 @@
+/* 
+    用户列表
+
+*/
+
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const UserSchema = new Schema({
@@ -23,7 +28,10 @@ const UserSchema = new Schema({
         }
     ], // 订单列表
     avatar: String, // 头像
-    level: Number, // 会员等级
+    level: {
+        type: Number,
+        default: 0
+    }, // 会员等级
     levelBonus: [], // 等级福利
     coupons: [
         {

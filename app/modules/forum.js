@@ -1,3 +1,7 @@
+/* 
+    论坛
+
+*/
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ForumSchema = new Schema({

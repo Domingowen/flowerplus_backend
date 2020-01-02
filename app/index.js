@@ -38,11 +38,11 @@ app.use(
         // multipart: true, // this is default
     })
 );
-app.use(async (ctx, next) => {
-    // console.log(ctx.reuqest.fields);
-    // console.log(clc.red(ctx.query.token, "token"));
-    return next();
-});
+// app.use(async (ctx, next) => {
+//     // console.log(ctx.reuqest.fields);
+//     // console.log(clc.red(ctx.query.token, "token"));
+//     return next();
+// });
 /* import router */
 routerCombine(app);
 

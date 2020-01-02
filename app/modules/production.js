@@ -6,20 +6,67 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ProductionSchema = new Schema({
     type: {
-        type: String, // 0推荐
+        type: String, // 0 单品花束 1 混合花束 2 MINI花束 3 礼品花束
         required: true
     },
-    id: {
+    haveRecommend: {
+        // 是否推荐
+        type: Boolean
+    },
+    recommendCategory: {
+        // 推荐分类
+        type: Array
+    },
+    picBanner: [], // 图片轮播
+    title: {
+        // 标题
         type: String,
         required: true
+    },
+    description: {
+        // 描叙
+        type: String,
+        required: true
+    },
+    advantage: {
+        // 优势标签
+        type: Array
+    },
+    promotionPolicies: {
+        // 促销政策
+        type: Array
     },
     pic: {
         type: String,
         required: true
     },
-    price: {
-        type: String,
+    discountPrice: {
+        // 折扣价
+        type: Number,
         required: true
+    },
+    originalPrice: {
+        // 原价
+        type: Number,
+        required: true
+    },
+    commoditySpecies: [
+        // 商品种类
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            speciesList: {
+                type: Array,
+                required: true
+            }
+        }
+    ],
+    addOnItems: {
+        // 购买附加物品
+        type: Schema.Types.ObjectId,
+        ref: "ProductionModel"
     }
 });
 const ProductionModel = model("ProductionModel", ProductionSchema);

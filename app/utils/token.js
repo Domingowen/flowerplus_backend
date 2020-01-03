@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-function generateToken(data) {
+async function generateToken(data) {
     let cert = fs.readFileSync(path.join(__dirname, "./rsa_private_key.pem"));
-    return jwt.sign(
+    return await jwt.sign(
         {
             data
         },

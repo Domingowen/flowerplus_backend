@@ -32,13 +32,20 @@ const UserSchema = new Schema({
         type: Number,
         default: 0
     }, // 会员等级
-    levelBonus: [], // 等级福利
+    levelBonus: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "LevelModel"
+        }
+    ], // 等级福利
     coupons: [
         {
             type: Schema.Types.ObjectId,
             ref: "CouponModel"
         }
     ] // 优惠券列表
+},{
+    timestamps: true
 });
 const UserModel = model("UserModel", UserSchema);
 module.exports = UserModel;

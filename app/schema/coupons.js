@@ -3,6 +3,11 @@
 */
 
 const mongoose = require("mongoose");
+const { Schema, model } = mongoose;/*
+    优惠券
+*/
+
+const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const CouponSchema = new Schema({

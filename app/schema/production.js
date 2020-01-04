@@ -1,4 +1,4 @@
-/* 
+/*
     产品数据设置
 */
 
@@ -13,10 +13,10 @@ const ProductionSchema = new Schema({
         // 是否推荐
         type: Boolean
     },
-    recommendCategory: {
-        // 推荐分类
-        type: Array
-    },
+    // recommendCategory: {
+    //     // 推荐分类
+    //     type: Array
+    // },
     picBanner: [], // 图片轮播
     title: {
         // 标题
@@ -50,17 +50,10 @@ const ProductionSchema = new Schema({
         type: Number,
         required: true
     },
-    commoditySpecies: [
+    productionSpecies: [
         // 商品种类
         {
-            name: {
-                type: String,
-                required: true
-            },
-            speciesList: {
-                type: Array,
-                required: true
-            }
+            type: Schema.Types.ObjectId
         }
     ],
     addOnItems: {

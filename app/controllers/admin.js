@@ -5,12 +5,16 @@
 class admin {
     /* 添加产品 */
     async createProduct(ctx, next) {}
+
     /* 添加删除 */
     async deleteProduct(ctx, next) {}
+
     /* 添加优惠券 */
     async addCoupon(ctx, next) {}
+
     /* 删除优惠券 */
     async deleteCoupon(ctx, next) {}
+
     /* 发放优惠券 */
     async distributeCoupon(ctx, next) {}
 
@@ -22,8 +26,6 @@ class admin {
 
     /* 检查权限 */
     async checkAuth(ctx, next) {}
-
-
 }
 
 module.exports = new admin();

@@ -32,6 +32,10 @@ const OrderSchema = new Schema({
     pic: {
         type: String
     }, // 订单图片
+    productionId: {
+        type: Schema.Types.ObjectId,
+        ref: 'ProductionModel'
+    }
 });
 const OrderModel = model("OrderModel", OrderSchema);
 module.exports = OrderModel;

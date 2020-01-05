@@ -56,11 +56,12 @@ const ProductionSchema = new Schema({
             type: Schema.Types.ObjectId
         }
     ],
-    addOnItems: {
+    addOnItems: [
         // 购买附加物品
-        type: Schema.Types.ObjectId,
-        ref: "ProductionModel"
-    }
+        {
+            type: Schema.Types.ObjectId
+        }
+    ]
 });
 const ProductionModel = model("ProductionModel", ProductionSchema);
 module.exports = ProductionModel;

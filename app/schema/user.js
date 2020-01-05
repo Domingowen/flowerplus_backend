@@ -43,7 +43,13 @@ const UserSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "CouponModel"
         }
-    ] // 优惠券列表
+    ], // 优惠券列表
+    address: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'AddressModel'
+        }
+    ]
 },{
     timestamps: true
 });

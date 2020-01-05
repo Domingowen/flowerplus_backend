@@ -1,23 +1,31 @@
 /*
-    产品属性
+    产品属性设置
 */
 
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const AttributeSchema = new Schema({
-    productId: {
+    type: {
+        // 属性类型
         type: Schema.Types.ObjectId,
-        ref: 'ProductionModel'
+        ref: 'AttributeTypeModel'
     },
-    title: {
-        type: String,
-        required: true,
+    name: {
+        // 属性名
+        type: String
     },
-    value: {
-        
-    },
-
+    attributeValueId: [
+        // 属性值
+        {
+            type: Schema.Types.ObjectId,
+            ref: "AttributeValueOptionModel"
+        }
+    ],
+    haveAddOnItem: {
+        // 是否是可加购
+        type: Boolean
+    }
 });
 const AttributeModel = model("AttributeModel", AttributeSchema);
 

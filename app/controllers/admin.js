@@ -4,7 +4,11 @@
 
 class admin {
     /* 添加产品 */
-    async createProduct(ctx, next) {}
+    async createProduct(ctx, next) {
+
+
+    }
+   
 
     /* 添加删除 */
     async deleteProduct(ctx, next) {}

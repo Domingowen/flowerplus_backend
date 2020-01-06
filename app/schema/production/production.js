@@ -14,7 +14,7 @@ const ProductionSchema = new Schema({
     //     // 是否推荐
     //     type: Boolean
     // },
-    
+
     // recommendCategory: {
     //     // 推荐分类
     //     type: Array
@@ -42,6 +42,10 @@ const ProductionSchema = new Schema({
         type: String,
         required: true
     },
+    productionSpecies: {
+        type: Schema.Types.ObjectId,
+        ref: 'ProductionSkuModel'
+    }
     // discountPrice: {
     //     // 折扣价
     //     type: Number,

@@ -53,11 +53,11 @@ const ProductionSchema = new Schema({
             ref: "ProductionAdvantageModel"
         }
     ],
-    promotionPolicies: [
+    promotion: [
         {
             // 促销政策
             type: Schema.Types.ObjectId,
-            ref: "ProductionPromotionPolicyModel"
+            ref: "ProductionPromotionModel"
         }
     ],
     productionSku: {

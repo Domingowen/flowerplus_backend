@@ -6,10 +6,16 @@ const { Schema, model } = mongoose;
 const ProductionSkuSchema = new Schema({
     productId: {
         type: Schema.Types.ObjectId,
-        ref: 'ProductionModel'
+        ref: "ProductionModel"
     },
     attrId: [
         // 商品属性值
+        {
+            type: Schema.Types.ObjectId,
+            ref: "AttributeModel"
+        }
+    ],
+    deliveryTime: [
         {
             type: Schema.Types.ObjectId,
             ref: "AttributeModel"

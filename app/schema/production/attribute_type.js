@@ -8,9 +8,6 @@ const AttributeTypeSchema = new Schema({
     name: {
         type: String,
     },
-    value: {
-        type: String
-    }
 });
 
 const AttributeTypeModel = model('AttributeTypeModel', AttributeTypeSchema);

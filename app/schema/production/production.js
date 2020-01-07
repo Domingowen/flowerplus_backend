@@ -19,7 +19,23 @@ const ProductionSchema = new Schema({
     //     // 推荐分类
     //     type: Array
     // },
-    picBanner: [], // 图片轮播
+    status: {
+        // 0 下架 1 在售 2 定时发售
+        type: Number,
+        required: true
+    },
+    picBanner: [
+        // 图片轮播
+        {
+            type: Schema.Types.ObjectId,
+            ref: "ProductionBannerModel"
+        }
+    ],
+    pic: {
+        // 展示图片
+        type: String,
+        required: true
+    },
     title: {
         // 标题
         type: String,
@@ -30,21 +46,29 @@ const ProductionSchema = new Schema({
         type: String,
         required: true
     },
-    advantage: {
-        // 优势标签
-        type: Array
-    },
-    promotionPolicies: {
-        // 促销政策
-        type: Array
-    },
-    pic: {
-        type: String,
-        required: true
-    },
-    productionSpecies: {
+    advantage: [
+        {
+            // 优势标签
+            type: Schema.Types.ObjectId,
+            ref: "ProductionAdvantageModel"
+        }
+    ],
+    promotionPolicies: [
+        {
+            // 促销政策
+            type: Schema.Types.ObjectId,
+            ref: "ProductionPromotionPolicyModel"
+        }
+    ],
+    productionSku: {
         type: Schema.Types.ObjectId,
-        ref: 'ProductionSkuModel'
+        ref: "ProductionSkuModel"
+    },
+    minPrice: {
+        type: String
+    },
+    maxPrice: {
+        type: String
     }
     // discountPrice: {
     //     // 折扣价

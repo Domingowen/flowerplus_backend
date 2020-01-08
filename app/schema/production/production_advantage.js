@@ -5,12 +5,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ProductionAdvantageSchema = new Schema({
-    productId: {
+    productId: 
         {
             type: Schema.Types.ObjectId,
             ref: "ProductionModel"
         }
-    },
+    ,
     name: {
         type: "String"
     },

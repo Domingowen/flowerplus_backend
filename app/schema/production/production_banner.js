@@ -5,14 +5,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ProductionBannerSchema = new Schema({
-    productId: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "ProductionModel"
-        }
-    ],
+    productId: {
+        type: Schema.Types.ObjectId,
+        ref: "ProductionModel"
+    },
     imgUrl: {
-        type: String,
+        type: String
     }
 });
 

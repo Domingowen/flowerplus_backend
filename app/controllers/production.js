@@ -3,6 +3,8 @@ const AttributeModel = require("../schema/production/attribute");
 const AttributeValueOptionModel = require("../schema/production/attribute_value_option");
 const AttributeTypeModel = require("../schema/production/attribute_type");
 // const AttributePriceModel = require('../schema/production/attribute_price');
+const ProductionAdvantageModel = require("../schema/production/production_advantage");
+const ProductionPromotionModel = require("../schema/production/production_promotion");
 const CategoryModel = require("../schema/production/categories");
 
 class production {
@@ -16,16 +18,116 @@ class production {
             pic: parameter.imgUrl,
             status: parameter.status,
             minPrice: parameter.minPrice,
-            maxPrice: parameter.maxPrice,
+            maxPrice: parameter.maxPrice
         });
         ctx.status = 200;
         ctx.body = {
-            message: '产品创建成功',
+            message: "产品创建成功",
             status: 200,
             data: {
-                productId: result._id,
+                productId: result._id
             }
-        }
+        };
+    }
+
+    /* 修改产品 */
+    async modifyProduct(ctx, next) {
+        console.log(ctx.request.body);
+        const parameter = ctx.request.body;
+        // const result = await ProductionModel.create({
+        //     title: parameter.title,
+        //     description: parameter.description,
+        //     pic: parameter.imgUrl,
+        //     status: parameter.status,
+        //     minPrice: parameter.minPrice,
+        //     maxPrice: parameter.maxPrice
+        // });
+        ctx.status = 200;
+        ctx.body = {
+            message: "产品修改成功",
+            status: 200,
+            data: {
+                productId: result._id
+            }
+        };
+    }
+
+    /* 删除产品 */
+    async deleteProduct(ctx, next) {
+        console.log(ctx.request.body);
+        const parameter = ctx.params;
+        const result = await ProductionModel.create({
+            _id: parameter.productId
+        });
+        ctx.status = 200;
+        ctx.body = {
+            message: "产品删除成功",
+            status: 200,
+            data: {
+                productId: result._id
+            }
+        };
+    }
+
+    /* 添加产品的优势标签 */
+    async creteProductAdvantage(ctx, next) {
+        console.log(ctx.request.body);
+        const parameter = ctx.request.body;
+        const result = await ProductionAdvantageModel.create({
+            name: parameter.name,
+            value: parameter.value
+        });
+        ctx.status = 200;
+        ctx.body = {
+            message: "产品标签创建成功",
+            status: 200,
+            data: {
+                advantageId: result._id
+            }
+        };
+    }
+    /* 删除产品的优势标签 */
+    async deleteProductAdvantage(ctx, next) {
+        console.log(ctx.request.body);
+        console.log(ctx.params);
+        const parameter = ctx.params;
+        const result = await ProductionAdvantageModel.remove({ _id: parameter.advantageId });
+        ctx.body = {
+            message: "产品标签删除成功",
+            status: 200
+        };
+    }
+
+    /* 添加产品的促销优惠 */
+    async creteProductPromotion(ctx, next) {
+        console.log(ctx.request.body);
+        const parameter = ctx.request.body;
+        const result = await ProductionPromotionModel.create({
+            label: parameter.label,
+            value: parameter.value
+        });
+        const product = await ProductionModel.findOne({ _id: parameter.productId });
+        product.promotion.push(result._id);
+        ctx.status = 200;
+        ctx.body = {
+            message: "产品促销优惠创建成功",
+            status: 200,
+            data: {
+                promotionId: result._id
+            }
+        };
+    }
+
+    /* 删除产品的促销优惠 */
+    async deleteProductPromotion(ctx, next) {
+        console.log(ctx.request.body);
+        console.log(ctx.params);
+        const parameter = ctx.params;
+        const result = await ProductionPromotionModel.remove({ _id: parameter.promotionId });
+        ctx.body = {
+            message: "产品促销优惠删除成功",
+            status: 200
+        };
     }
 
     /* 添加产品的sku */
@@ -48,9 +150,7 @@ class production {
         const parameter = ctx.request.body;
         const result = await AttributeModel.find({ _id: attrId });
         ctx.status = 200;
-        ctx.body = {
-            
-        }
+        ctx.body = {};
     }
 
     /* 添加产品的属性 */
@@ -90,7 +190,6 @@ class production {
     /* 获取产品的属性值 */
     async getProductAttributeValue(ctx, next) {
         const parameter = ctx.request.body;
-
     }
 
     /* 添加产品的属性可选值 */
@@ -115,7 +214,7 @@ class production {
             discountPrice: parameter.discountPrice ? parameter.discountPrice : 0,
             originalPrice: parameter.originalPrice,
             stock: parameter.stock,
-            attrId: parameter.attrId,
+            attrId: parameter.attrId
         });
         console.log(result);
         await attribute.attributeValueId.push(result._id);
@@ -135,13 +234,30 @@ class production {
     async modifyProductAttributeValueOptions(ctx, next) {}
 
     /* 删除产品的属性可选值 */
-    async deleteProductAttributeValueOptions(ctx, next) {
-
-    }
+    async deleteProductAttributeValueOptions(ctx, next) {}
 
     /* 添加产品类别 */
 
-    async createCategory(ctx, next) {}
+    async createCategory(ctx, next) {
+        
+        // const list = await ProductionModel.find();
+        // const promotionList = await ProductionPromotionModel.find();
+        // list.forEach(val => {
+        //     promotionList.map(res => val.promotion.push(res._id));
+        //     val.save();
+        // });
+        // console.log(list);
+        // list.save();
+        // const res = await ProductionModel.update(
+        //     {},
+        //     {
+        //         $rename: { promotionPolicies: "promotion" }
+        //     }
+        // );
+        // const res = await ProductionModel.collection.update({}, { $rename: { promotionPolicies: "promotion" }}, { multi: true });
+        // res.save();
+        // console.log(res);
+    }
     /* 修改产品类别 */
 
     async modifyCategory(ctx, next) {}

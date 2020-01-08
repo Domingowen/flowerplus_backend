@@ -5,12 +5,10 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ProductionPromotionSchema = new Schema({
-    // productId: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: "ProductionModel"
-    //     }
-    // ],
+    productId: {
+        type: Schema.Types.ObjectId,
+        ref: "ProductionModel"
+    },
     label: {
         type: "String"
     },

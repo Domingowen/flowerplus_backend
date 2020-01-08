@@ -3,15 +3,7 @@
 */
 
 class admin {
-    /* 添加产品 */
-    async createProduct(ctx, next) {
 
-
-    }
-   
-
-    /* 添加删除 */
-    async deleteProduct(ctx, next) {}
 
     /* 添加优惠券 */
     async addCoupon(ctx, next) {}

@@ -20,7 +20,6 @@ const ForumSchema = new Schema({
     avatar: { // 头像
         type: String, 
     },
-    
 });
 const ForumModel = model('ForumModel', ForumSchema);
 module.exports = ForumModel;

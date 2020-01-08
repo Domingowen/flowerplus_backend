@@ -7,6 +7,7 @@ const { Schema, model } = mongoose;
 
 const AttributeValueOptionSchema = new Schema(
     {
+        
         name: {
             // 名称
             type: String
@@ -19,20 +20,20 @@ const AttributeValueOptionSchema = new Schema(
         //     type: Schema.Types.ObjectId,
         //     ref: 'AttributePriceModel'
         // },
-        discountPrice: {
-            // 折扣价
-            type: Number,
-            required: true
-        },
-        originalPrice: {
-            // 原价
-            type: Number,
-            required: true
-        },
-        stock: {
-            // 库存
-            type: Number
-        },
+        // discountPrice: {
+        //     // 折扣价
+        //     type: Number,
+        //     required: true
+        // },
+        // originalPrice: {
+        //     // 原价
+        //     type: Number,
+        //     required: true
+        // },
+        // stock: {
+        //     // 库存
+        //     type: Number
+        // },
         attrId: {
             // 属性ID
             type: String,

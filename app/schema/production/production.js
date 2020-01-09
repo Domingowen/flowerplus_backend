@@ -19,6 +19,9 @@ const ProductionSchema = new Schema({
     //     // 推荐分类
     //     type: Array
     // },
+    productId: {
+        type: String
+    },
     status: {
         // 0 下架 1 在售 2 定时发售
         type: Number,
@@ -54,46 +57,39 @@ const ProductionSchema = new Schema({
         }
     ],
     promotion: [
+        // 促销政策
         {
-            // 促销政策
             type: Schema.Types.ObjectId,
             ref: "ProductionPromotionModel"
         }
     ],
-    productionSku: {
-        type: Schema.Types.ObjectId,
-        ref: "ProductionSkuModel"
-    },
+    productionSku: [
+        // 产品SKU
+        {
+            type: Schema.Types.ObjectId,
+            ref: "ProductionSkuModel"
+        }
+    ],
+    productionAttr: [
+        // 商品属性种类
+        {
+            type: Schema.Types.ObjectId,
+            ref: "AttributeModel"
+        }
+    ],
     minPrice: {
         type: String
     },
     maxPrice: {
         type: String
-    }
-    // discountPrice: {
-    //     // 折扣价
-    //     type: Number,
-    //     required: true
-    // },
-    // originalPrice: {
-    //     // 原价
-    //     type: Number,
-    //     required: true
-    // },
-    // productionSpecies: [
-    //     // 商品种类
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'ProductionSkuModel'
-    //     }
-    // ],
-    // addOnItems: [
-    //     // 购买附加物品
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: "AttributeModel"
-    //     }
-    // ]
+    },
+    addOnItems: [
+        // 购买附加物品
+        {
+            type: Schema.Types.ObjectId,
+            ref: "AttributeModel"
+        }
+    ]
 });
 const ProductionModel = model("ProductionModel", ProductionSchema);
 module.exports = ProductionModel;

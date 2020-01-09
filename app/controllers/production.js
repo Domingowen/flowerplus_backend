@@ -5,7 +5,10 @@ const AttributeTypeModel = require("../schema/production/attribute_type");
 // const AttributePriceModel = require('../schema/production/attribute_price');
 const ProductionAdvantageModel = require("../schema/production/production_advantage");
 const ProductionPromotionModel = require("../schema/production/production_promotion");
+const ProductionSkuModel = require('../schema/production/production_sku');
 const CategoryModel = require("../schema/production/categories");
+
+const shortId = require('shortid');
 
 class production {
     /* 添加产品 */
@@ -133,6 +136,26 @@ class production {
     /* 添加产品的sku */
     async createProductSku(ctx, next) {
         console.log(ctx.request.body);
+        const parameter = ctx.request.body;
+        const product = await ProductionModel.findOne({_id: parameter.productId});
+        console.log(product);
+        const result = await ProductionSkuModel.create({
+            skuProperties: parameter.skuProperties,
+            stock: parameter.stock,
+            price: parameter.price,
+            originPrice: parameter.originPrice,
+            productId: parameter.productId,
+            skuId: shortId.generate(),
+        });
+        product.productionSku.push(result._id);
+        product.save();
+        ctx.body = {
+            message: "产品SKU创建成功",
+            status: 200,
+            data: {
+                skuId: result.skuId
+            }
+        };
     }
 
     /* 删除产品的sku */
@@ -144,6 +167,8 @@ class production {
     async modifyProductSku(ctx, next) {
         console.log(ctx.request.body);
     }
+
+
     /* 获取产品的属性 */
     async getProductAttribute(ctx, next) {
         console.log(ctx.request.body);
@@ -163,7 +188,6 @@ class production {
         });
         const result = await AttributeModel.create({
             name: parameter.name,
-            haveAddOnItem: parameter.haveAddOnItem
         });
         console.log(result);
         ctx.status = 200;
@@ -173,7 +197,6 @@ class production {
             data: {
                 attrId: result._id,
                 name: result.name,
-                havaAddOnItem: result.haveAddOnItem
             }
         };
     }
@@ -209,11 +232,11 @@ class production {
         // console.log(attribute);
         const result = await AttributeValueOptionModel.create({
             name: parameter.name,
-            value: parameter.value,
+            // value: parameter.value,
             image: parameter.image ? parameter.image : "",
-            discountPrice: parameter.discountPrice ? parameter.discountPrice : 0,
-            originalPrice: parameter.originalPrice,
-            stock: parameter.stock,
+            // discountPrice: parameter.discountPrice ? parameter.discountPrice : 0,
+            // originalPrice: parameter.originalPrice,
+            // stock: parameter.stock,
             attrId: parameter.attrId
         });
         console.log(result);
@@ -254,8 +277,8 @@ class production {
         //         $rename: { promotionPolicies: "promotion" }
         //     }
         // );
-        // const res = await ProductionModel.collection.update({}, { $rename: { promotionPolicies: "promotion" }}, { multi: true });
-        // res.save();
+        const res = await ProductionModel.collection.update({}, { $rename: { productId: shortId.generate() }}, { multi: true });
+        res.save();
         // console.log(res);
     }
     /* 修改产品类别 */
@@ -264,6 +287,39 @@ class production {
     /* 删除产品类别 */
 
     async deleteCategory(ctx, next) {}
+
+
+
+
+     /* test router */
+
+    async test(ctx, next) {
+        
+        // const list = await ProductionModel.find();
+        // const promotionList = await ProductionPromotionModel.find();
+        // list.forEach(val => {
+        //     promotionList.map(res => val.promotion.push(res._id));
+        //     val.save();
+        // });
+        // console.log(list);
+        // list.save();
+        // const res = await ProductionModel.update(
+        //     {},
+        //     {
+        //         $rename: { promotionPolicies: "promotion" }
+        //     }
+        // );
+        const res = await AttributeModel.find().populate('attributeValueId');
+        // res.map(val => {
+        //     val.productionAttr.push('5e16a42a661c91be2c5245dc');
+        //     val.save();
+        // })
+        console.log(res);
+        ctx.body = {
+            data: res
+        }
+        // console.log(res);
+    }
 }
 
 module.exports = new production();

@@ -1,10 +1,11 @@
 /*
     产品属性设置
+    产品的属性，如 订几个月 配送周期 颜色 尺寸
+    
 */
 
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
-
 const AttributeSchema = new Schema(
     {
         type: {
@@ -23,10 +24,16 @@ const AttributeSchema = new Schema(
                 ref: "AttributeValueOptionModel"
             }
         ],
-        haveAddOnItem: {
-            // 是否是可加购
-            type: Boolean
+        attrId: {
+            // 属性ID
+            type: String
         },
+        productId: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'ProductionModel'
+            }
+        ]
     },
     {
         timestamps: true

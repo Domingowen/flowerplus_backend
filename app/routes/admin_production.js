@@ -5,6 +5,8 @@ const {
     deleteProduct,
     modifyProduct,
     createProductSku,
+    deleteProductSku,
+    modifyProductSku,
     createProductAttribute,
     createProductAttributePrice,
     createProductAttributeValueOptions,
@@ -18,6 +20,9 @@ const {
     deleteProductAdvantage,
     creteProductPromotion,
     deleteProductPromotion,
+
+
+    test,
 
 } = require("../controllers/production");
 
@@ -39,16 +44,25 @@ adminProductRouter.post("/admin/create_product_promotion", creteProductPromotion
 adminProductRouter.delete("/admin/delete_product_promotion/:promotionId", deleteProductPromotion);
 
 adminProductRouter.post("/admin/create_product_sku", createProductSku);
+adminProductRouter.post("/admin/modify_product_sku", modifyProductSku);
+adminProductRouter.post("/admin/delete_product_sku", deleteProductSku);
+
 adminProductRouter.post("/admin/get_product_attr", createProductAttribute);
+
 adminProductRouter.post("/admin/create_product_attr", createProductAttribute);
 adminProductRouter.post("/admin/delete_product_attr", deleteProductAttribute);
 adminProductRouter.post("/admin/modify_product_attr", modifyProductAttribute);
 // adminProductRouter.post("/admin/create_product_attr_price", createProductAttributePrice);
 adminProductRouter.post("/admin/get_product_attr_val_opt", createProductAttributeValueOptions);
+
 adminProductRouter.post("/admin/create_product_attr_val_opt", createProductAttributeValueOptions);
 adminProductRouter.post("/admin/modify_product_attr_val_opt", modifyProductAttributeValueOptions);
 adminProductRouter.post("/admin/delete_product_attr_val_opt", deleteProductAttributeValueOptions);
+
 adminProductRouter.post("/admin/create_product_category", createCategory);
+
+
+adminProductRouter.post("/admin/test", test);
 
 
 

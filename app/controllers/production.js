@@ -5,10 +5,10 @@ const AttributeTypeModel = require("../schema/production/attribute_type");
 // const AttributePriceModel = require('../schema/production/attribute_price');
 const ProductionAdvantageModel = require("../schema/production/production_advantage");
 const ProductionPromotionModel = require("../schema/production/production_promotion");
-const ProductionSkuModel = require('../schema/production/production_sku');
+const ProductionSkuModel = require("../schema/production/production_sku");
 const CategoryModel = require("../schema/production/categories");
 
-const shortId = require('shortid');
+const shortId = require("shortid");
 
 class production {
     /* 添加产品 */
@@ -137,7 +137,7 @@ class production {
     async createProductSku(ctx, next) {
         console.log(ctx.request.body);
         const parameter = ctx.request.body;
-        const product = await ProductionModel.findOne({_id: parameter.productId});
+        const product = await ProductionModel.findOne({ _id: parameter.productId });
         console.log(product);
         const result = await ProductionSkuModel.create({
             skuProperties: parameter.skuProperties,
@@ -145,7 +145,7 @@ class production {
             price: parameter.price,
             originPrice: parameter.originPrice,
             productId: parameter.productId,
-            skuId: shortId.generate(),
+            skuId: shortId.generate()
         });
         product.productionSku.push(result._id);
         product.save();
@@ -168,7 +168,6 @@ class production {
         console.log(ctx.request.body);
     }
 
-
     /* 获取产品的属性 */
     async getProductAttribute(ctx, next) {
         console.log(ctx.request.body);
@@ -187,7 +186,7 @@ class production {
             // haveAddOnItem: "boolean"
         });
         const result = await AttributeModel.create({
-            name: parameter.name,
+            name: parameter.name
         });
         console.log(result);
         ctx.status = 200;
@@ -196,7 +195,7 @@ class production {
             status: 200,
             data: {
                 attrId: result._id,
-                name: result.name,
+                name: result.name
             }
         };
     }
@@ -262,7 +261,6 @@ class production {
     /* 添加产品类别 */
 
     async createCategory(ctx, next) {
-        
         // const list = await ProductionModel.find();
         // const promotionList = await ProductionPromotionModel.find();
         // list.forEach(val => {
@@ -277,7 +275,7 @@ class production {
         //         $rename: { promotionPolicies: "promotion" }
         //     }
         // );
-        const res = await ProductionModel.collection.update({}, { $rename: { productId: shortId.generate() }}, { multi: true });
+        const res = await ProductionModel.collection.update({}, { $rename: { productId: shortId.generate() } }, { multi: true });
         res.save();
         // console.log(res);
     }
@@ -288,13 +286,9 @@ class production {
 
     async deleteCategory(ctx, next) {}
 
-
-
-
-     /* test router */
+    /* test router */
 
     async test(ctx, next) {
-        
         // const list = await ProductionModel.find();
         // const promotionList = await ProductionPromotionModel.find();
         // list.forEach(val => {
@@ -309,15 +303,17 @@ class production {
         //         $rename: { promotionPolicies: "promotion" }
         //     }
         // );
-        const res = await AttributeModel.find().populate('attributeValueId');
+        // const res = await AttributeModel.find().populate("attributeValueId");
+
         // res.map(val => {
         //     val.productionAttr.push('5e16a42a661c91be2c5245dc');
         //     val.save();
         // })
+        const res = await AttributeModel.aggregate([{ $lookup: { from: "attributevalueoptionmodels", localField: "attrId", foreignField: "attrId", as: "attributeValueId" } }]);
         console.log(res);
         ctx.body = {
             data: res
-        }
+        };
         // console.log(res);
     }
 }

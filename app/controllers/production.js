@@ -345,7 +345,7 @@ class production {
                                         currentIndex: "$$this"
                                     },
                                     in: {
-                                        $reudce: {
+                                        $reduce: {
                                             input: {
                                                 $map: {
                                                     input: "$$currentResult",
@@ -355,16 +355,17 @@ class production {
                                                             input: "$$currentIndex",
                                                             as: "r",
                                                             in: {
-                                                                $add: ['$$d', '$$r']
+                                                                value: { $concat: ["$$a.attrId", ":", "$$a.attrValId", ";", "$$r.attrId", ":", "$$r.attrValId"] },
+                                                                propertyName: { $concat: ["$$a.name", ";", "$$r.name",] }
                                                             }
                                                         }
                                                     }
                                                 }
+                                            },
+                                            initialValue: [],
+                                            in: {
+                                                $concatArrays: ["$$value", "$$this"]
                                             }
-                                        },
-                                        initialValue: [],
-                                        in: {
-                                            $concatArrays: ["$$value", "$$this"]
                                         }
                                     }
                                 }

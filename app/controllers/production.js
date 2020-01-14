@@ -309,7 +309,71 @@ class production {
         //     val.productionAttr.push('5e16a42a661c91be2c5245dc');
         //     val.save();
         // })
-        const res = await AttributeModel.aggregate([{ $lookup: { from: "attributevalueoptionmodels", localField: "attrId", foreignField: "attrId", as: "attributeValueId" } }]);
+
+        /* 
+            https://stackoverflow.com/questions/43819186/c-sharp-mongodb-cartesian-product-of-multiple-object-array-documents
+        */
+        const res = await AttributeModel.aggregate([
+            {
+                $lookup: {
+                    from: "attributevalueoptionmodels",
+                    localField: "attrId",
+                    foreignField: "attrId",
+                    as: "attributeValueId"
+                }
+            },
+            {
+                $group: {
+                    _id: "",
+                    sku: {
+                        $push: "$attributeValueId"
+                    }
+                }
+            },
+            {
+                $project: {
+                    sku: {
+                        $reduce: {
+                            input: { $slice: ["$sku", 1, { $subtract: [{ $size: "$sku" }, 1] }] },
+                            initialValue: {
+                                $arrayElemAt: ["$sku", 0]
+                            },
+                            in: {
+                                $let: {
+                                    vars: {
+                                        currentResult: "$$value",
+                                        currentIndex: "$$this"
+                                    },
+                                    in: {
+                                        $reudce: {
+                                            input: {
+                                                $map: {
+                                                    input: "$$currentResult",
+                                                    as: "a",
+                                                    in: {
+                                                        $map: {
+                                                            input: "$$currentIndex",
+                                                            as: "r",
+                                                            in: {
+                                                                $add: ['$$d', '$$r']
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        initialValue: [],
+                                        in: {
+                                            $concatArrays: ["$$value", "$$this"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]);
         console.log(res);
         ctx.body = {
             data: res

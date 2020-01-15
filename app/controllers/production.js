@@ -322,58 +322,124 @@ class production {
                     as: "attributeValueId"
                 }
             },
+            { $unwind: "$attributeValueId" },
             {
                 $group: {
                     _id: "",
                     sku: {
-                        $push: "$attributeValueId"
+                        $push: {
+                            attributeValue: "$attributeValueId",
+                            attributeName: "$name",
+                            attributeId: "$attrId"
+                        }
                     }
                 }
             },
             {
                 $project: {
-                    sku: {
+                    result: {
                         $reduce: {
-                            input: { $slice: ["$sku", 1, { $subtract: [{ $size: "$sku" }, 1] }] },
-                            initialValue: {
-                                $arrayElemAt: ["$sku", 0]
-                            },
+                            input: "$sku",
+                            initialValue: {},
                             in: {
-                                $let: {
-                                    vars: {
-                                        currentResult: "$$value",
-                                        currentIndex: "$$this"
-                                    },
-                                    in: {
-                                        $reduce: {
-                                            input: {
-                                                $map: {
-                                                    input: "$$currentResult",
-                                                    as: "a",
-                                                    in: {
-                                                        $map: {
-                                                            input: "$$currentIndex",
-                                                            as: "r",
-                                                            in: {
-                                                                value: { $concat: ["$$a.attrId", ":", "$$a.attrValId", ";", "$$r.attrId", ":", "$$r.attrValId"] },
-                                                                propertyName: { $concat: ["$$a.name", ";", "$$r.name",] }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            initialValue: [],
-                                            in: {
-                                                $concatArrays: ["$$value", "$$this"]
-                                            }
-                                        }
-                                    }
-                                }
+                                // $cond: {
+                                //     if: {
+                                //         $eq: ["$$value.attributeId", "$$this.attributeId"]
+                                //     },
+                                //     then: "$$value",
+                                //     else: "$$this"
+                                // },
+                                
+                                // $let: {
+                                //     vars: {
+                                //         currentResult: "$$value",
+                                //         currentIndex: "$$this"
+                                //     },
+                                //     in: {
+                                //         $reduce: {
+                                //             input: "$$currentResult",
+                                //             initialValue: [],
+                                //             in: {
+                                //                 aa: "$$currentIndex"
+                                //                 // $group: {
+                                //                 //     _id: '',
+                                //                 //     $push: "$$currentIndex"
+                                //                 // }
+
+                                //                 // $concat: ["$$currentIndex"]
+                                //                 // $map: {
+                                //                 //     input: "$$currentIndex",
+                                //                 //     as: "r",
+                                //                 //     in: {
+                                //                 //         value: { $concat: ["$$a.attrId", ":", "$$a.attrValId", ";", "$$r.attrId", ":", "$$r.attrValId"] },
+                                //                 //         propertyName: { $concat: ["$$a.name", ";", "$$r.name"] }
+                                //                 //     }
+                                //                 // }
+                                //             }
+                                //         }
+                                //     }
+                                // }
                             }
                         }
                     }
                 }
             }
+            // {
+            //     $group: {
+            //         _id: null,
+            //         unique: { $addToSet: { attributeId: "$sku.attributeId", attributeValue: "$sku.attributeValue" } }
+            //     }
+            // }
+            // {
+            //     $project: {
+            //         result: {
+            //             $reduce: {
+            //                 input: "$sku",
+            //                 initialValue: [],
+            //                 in: {
+            //                     // $map: {
+            //                     //     input: '$$value',
+            //                     //     as: 'a',
+            //                     //     in: {
+            //                     //         $concat: ['$$a.attrId']
+            //                     //     }
+            //                     // }
+            //                     // currentResult: "$$value",
+            //                     // currentValue: "$$this"
+
+            //                     // $group: {
+            //                     //     sku: {
+            //                     //         $push: {
+            //                     //             currentResult: "$$value",
+            //                     //             currentValue: "$$this"
+            //                     //         }
+            //                     //     }
+            //                     // }
+            //                     $let: {
+            //                         vars: {
+            //                             currentResult: "$$value",
+            //                             currentValue: "$$this"
+            //                         },
+            //                         in: {
+            //                             $map: {
+            //                                 input: "$$currentResult",
+            //                                 as: 'a',
+            //                                 in: {
+            //                                     $concat: ['$$currentValue.attributeId']
+            //                                     // $group: {
+            //                                     //     _id: "",
+            //                                     //     $push: ["$$a"]
+            //                                     // }
+
+            //                                 }
+            //                             }
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
         ]);
         console.log(res);
         ctx.body = {

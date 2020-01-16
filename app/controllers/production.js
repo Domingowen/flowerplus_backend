@@ -342,25 +342,33 @@ class production {
                             input: "$sku",
                             initialValue: [],
                             in: {
-                                $let: {
-                                    vars: {
-                                        currentResult: "$$value",
-                                        currentIndex: "$$this"
-                                    },
-                                    in: {
+                                $concatArrays: [
+                                    {
                                         $map: {
                                             input: "$sku",
                                             as: "a",
                                             in: {
                                                 $cond: {
-                                                    if: { $eq: ["$$a.attributeId", "$$currentIndex.attributeId"] },
-                                                    then: "",
-                                                    else: { $concat: ["$$a.attributeId", "$$a.attributeName", "$$a.attributeValue.name", "$$currentIndex.attributeId", "$$currentIndex.attributeName", "$$currentIndex.attributeValue.name"] }
+                                                    if: {
+                                                        $eq: ["$$a.attributeId", "$$this.attributeId"]
+                                                    },
+                                                    then: '',
+                                                    else: {
+                                                        sku: ["$$a.attributeValue", "$$this.attributeValue"]
+                                                    }
                                                 }
+                                                // $map: {
+                                                //     input: "$$a",
+                                                //     as: 'b',
+                                                //     in: {
+                                                //         sku: ['$$b.attributeId', '$$a.attributeId']
+                                                //     }
+                                                // }
                                             }
                                         }
-                                    }
-                                }
+                                    },
+                                    "$$value"
+                                ]
                             }
                         }
                     }

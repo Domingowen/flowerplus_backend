@@ -289,97 +289,109 @@ class production {
     /* test router */
 
     async test(ctx, next) {
-        // const list = await ProductionModel.find();
-        // const promotionList = await ProductionPromotionModel.find();
-        // list.forEach(val => {
-        //     promotionList.map(res => val.promotion.push(res._id));
-        //     val.save();
-        // });
-        // console.log(list);
-        // list.save();
-        // const res = await ProductionModel.update(
-        //     {},
-        //     {
-        //         $rename: { promotionPolicies: "promotion" }
-        //     }
-        // );
-        // const res = await AttributeModel.find().populate("attributeValueId");
-
-        // res.map(val => {
-        //     val.productionAttr.push('5e16a42a661c91be2c5245dc');
-        //     val.save();
-        // })
-
-        /* 
+        /*
             https://stackoverflow.com/questions/43819186/c-sharp-mongodb-cartesian-product-of-multiple-object-array-documents
         */
-        const res = await AttributeModel.aggregate([
-            {
-                $lookup: {
-                    from: "attributevalueoptionmodels",
-                    localField: "attrId",
-                    foreignField: "attrId",
-                    as: "attributeValueId"
-                }
-            },
-            { $unwind: "$attributeValueId" },
-            {
-                $group: {
-                    _id: "",
-                    sku: {
-                        $push: {
-                            attributeValue: "$attributeValueId",
-                            attributeName: "$name",
-                            attributeId: "$attrId"
-                        }
-                    }
-                }
-            },
-            {
-                $project: {
-                    result: {
-                        $reduce: {
-                            input: "$sku",
-                            initialValue: [],
-                            in: {
-                                $concatArrays: [
-                                    {
-                                        $map: {
-                                            input: "$sku",
-                                            as: "a",
-                                            in: {
-                                                $cond: {
-                                                    if: {
-                                                        $eq: ["$$a.attributeId", "$$this.attributeId"]
-                                                    },
-                                                    then: '',
-                                                    else: {
-                                                        sku: ["$$a.attributeValue", "$$this.attributeValue"]
-                                                    }
-                                                }
-                                                // $map: {
-                                                //     input: "$$a",
-                                                //     as: 'b',
-                                                //     in: {
-                                                //         sku: ['$$b.attributeId', '$$a.attributeId']
-                                                //     }
-                                                // }
-                                            }
-                                        }
-                                    },
-                                    "$$value"
-                                ]
-                            }
-                        }
-                    }
-                }
-            }
-        ]);
-        console.log(res);
-        ctx.body = {
-            data: res
-        };
+        // let res = null;
+        // await AttributeModel.aggregate(
+        //     [
+        //         {
+        //             $lookup: {
+        //                 from: "attributevalueoptionmodels",
+        //                 localField: "attrId",
+        //                 foreignField: "attrId",
+        //                 as: "attributeValueId"
+        //             }
+        //         },
+        //         // { $unwind: "$attributeValueId" },
+        //         {
+        //             $group: {
+        //                 _id: "",
+        //                 sku: {
+        //                     $push: {
+        //                         attrVal: "$attributeValueId",
+        //                         attrName: "$name"
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         {
+        //             $project: {
+        //                 sku: {
+        //                     $reduce: {
+        //                         input: { $slice: ["$sku", 1, { $subtract: [{ $size: "$sku" }, 1] }] },
+        //                         initialValue: {
+        //                             $arrayElemAt: ["$sku", 0]
+        //                         },
+        //                         in: {
+        //                             $let: {
+        //                                 vars: {
+        //                                     currentResult: "$$value.attrVal",
+        //                                     currentIndex: "$$this.attrVal"
+        //                                 },
+        //                                 in: {
+        //                                     $reduce: {
+        //                                         input: {
+        //                                             $map: {
+        //                                                 input: "$$currentResult",
+        //                                                 as: "a",
+        //                                                 in: {
+        //                                                     $map: {
+        //                                                         input: "$$currentIndex",
+        //                                                         as: "r",
+        //                                                         in: {
+        //                                                             value: { $concat: ["$$a.attrId", ":", "$$a.attrValId", ";", "$$r.attrId", ":", "$$r.attrValId"] },
+        //                                                             propertyName: { $concat: ["$$value.attrName", ":", "$$a.name", ";", "$$this.attrName", ":", "$$r.name"] }
+        //                                                         }
+        //                                                     }
+        //                                                 }
+        //                                             }
+        //                                         },
+        //                                         initialValue: [],
+        //                                         in: {
+        //                                             $concatArrays: ["$$value", "$$this"]
+        //                                         }
+        //                                     }
+        //                                 }
+        //                             }
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         { $limit: 1 }
+        //     ],
+        //     function(err, data) {
+        //         // callback(err, data);
+        //         res = data[0];
+        //     }
+        // );
         // console.log(res);
+        // res.sku.forEach(async val => {
+        //     await ProductionSkuModel.create({
+        //         skuPropertyName: val.propertyName,
+        //         skuProperties: val.value,
+        //         stock: 100,
+        //         price: 100,
+        //         originPrice: 100,
+        //         skuId: shortId.generate()
+        //     });
+        // });
+        // ctx.body = {
+        //     data: res
+        // };
+        // console.log(res);
+
+        // ProductionModel.find({}, (err, data) => {
+        //     data.map(async val => {
+        //         ProductionSkuModel.find({}, (err, dataSku) => {
+        //             dataSku.map(async res => {
+        //                 await val.productionSku.push(res._id);
+        //             });
+        //         });
+        //         await val.save();
+        //     });
+        // });
     }
 }
 

@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ProductionSkuSchema = new Schema({
     skuId: {
-        type: String,
+        type: String
     },
     productId: {
         type: Schema.Types.ObjectId,
@@ -13,7 +13,11 @@ const ProductionSkuSchema = new Schema({
     },
     skuProperties: {
         // sku 对应的属性值
-        type: String,
+        type: String
+    },
+    skuPropertyName: {
+        // sku 对应的属性名
+        type: String
     },
     stock: {
         //库存
@@ -21,7 +25,7 @@ const ProductionSkuSchema = new Schema({
     },
     price: {
         // 价格
-        type: Number,
+        type: Number
     },
     originPrice: {
         // 原价

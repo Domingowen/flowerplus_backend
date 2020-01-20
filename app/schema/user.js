@@ -49,7 +49,7 @@ const UserSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'AddressModel'
         }
-    ]
+    ], // 地址列表
 },{
     timestamps: true
 });

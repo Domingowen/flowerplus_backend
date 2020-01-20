@@ -275,8 +275,8 @@ class production {
         //         $rename: { promotionPolicies: "promotion" }
         //     }
         // );
-        const res = await ProductionModel.collection.update({}, { $rename: { productId: shortId.generate() } }, { multi: true });
-        res.save();
+        // const res = await ProductionModel.collection.update({}, { $rename: { productId: shortId.generate() } }, { multi: true });
+        // res.save();
         // console.log(res);
     }
     /* 修改产品类别 */

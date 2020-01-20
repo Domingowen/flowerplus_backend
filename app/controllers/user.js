@@ -2,6 +2,7 @@
     user controller login register
 */
 const UserModel = require("../schema/user.js");
+const AddressModel = require("../schema/address.js");
 const { generateToken } = require("../utils/token");
 const { encrypt, validate } = require("../utils/password");
 class UserController {
@@ -23,7 +24,8 @@ class UserController {
                 ctx.body = {
                     message: "登录成功",
                     data: {
-                        token: token
+                        token: token,
+                        userId: checkUser._id
                     }
                 };
             } else {
@@ -94,6 +96,78 @@ class UserController {
         // console.log(checkPhone, 'check phone');
         ctx.state.checkPhone = checkPhone;
         await next();
+    }
+
+    /* 
+        获取用户信息
+    */
+    async getUser(ctx, next) {
+        await ctx.verifyParams({
+            userId: "string"
+        });
+        console.log(ctx.request.body);
+        console.log(ctx.query);
+        // let requestMethod = ctx.request.method;
+        let getUser = await UserModel.findOne({
+            _id: ctx.request.body ? ctx.request.body.userId : ctx.query.userId
+        });
+        ctx.state.userInfo = getUser;
+        // console.log(ctx.request.method);
+        await next();
+    }
+
+    /* 
+        add address
+    */
+    async addAddress(ctx, next) {
+        let parameter = await ctx.request.body;
+        console.log(parameter);
+        if (parameter.default) {
+            let address = await AddressModel.updateMany({
+                userId: parameter.userId
+            }, {
+                default: false
+            });
+            console.log(address);
+        }
+
+        let result = await AddressModel.create({
+            userId: parameter.userId,
+            province: parameter.province,
+            city: parameter.city,
+            district: parameter.district,
+            detail: parameter.detail,
+            default: parameter.default ? parameter.default : false
+        });
+        console.log(result);
+        let { userInfo } = ctx.state;
+        userInfo.address.push(result._id);
+        userInfo.save();
+        console.log(userInfo);
+        ctx.body = {
+            status: 200,
+            message: "地址添加成功",
+            data: {
+                addressId: result._id
+            }
+        };
+    }
+
+    /* 
+        delete address
+    */
+    async deleteAddress(ctx, next) {
+        let parameter = await ctx.query;
+        console.log(parameter);
+        let {userInfo}
+        let result = await AddressModel.remove({
+            _id: addressId
+        });
+        
+        console.log(result);
+        // await AddressModel.remove({
+
+        // })
     }
 }
 module.exports = new UserController();

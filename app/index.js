@@ -14,7 +14,8 @@ const ip = require("ip");
 const qs = require("querystring");
 const clc = require("cli-color");
 const createError = require("http-errors");
-
+const http = require('http');
+const https = require('https');
 
 const formData = require("./utils/formidable");
 const redisClient = require('./redis/index');
@@ -48,6 +49,6 @@ app.use(
 /* import router */
 routerCombine(app);
 
-app.listen(3000, ip.address(), () => {
-    console.log("app starting" + "this request ip  " + ip.address() + ":3000");
+app.listen(3000,() => {
+    console.log("app starting" + "this request ip " + 3000);
 });

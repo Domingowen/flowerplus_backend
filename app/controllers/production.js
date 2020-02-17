@@ -7,6 +7,7 @@ const ProductionAdvantageModel = require("../schema/production/production_advant
 const ProductionPromotionModel = require("../schema/production/production_promotion");
 const ProductionSkuModel = require("../schema/production/production_sku");
 const CategoryModel = require("../schema/production/categories");
+const RecommendModel = require("../schema/recommend");
 
 const shortId = require("shortid");
 
@@ -261,6 +262,30 @@ class production {
     /* 添加产品类别 */
 
     async createCategory(ctx, next) {
+        const parameter = ctx.request.body;
+        let result = null;
+        if (parameter.categoryId) {
+            result = await CategoryModel.findOne({ _id: parameter.categoryId });
+            if (result.productId.indexOf(parameter.productId) === -1) {
+                result.productId.push(parameter.productId);
+            }
+            result.save();
+        } else {
+            result = await CategoryModel.create({
+                productId: parameter.productId,
+                title: parameter.title
+            });
+        }
+        ctx.body = {
+            status: 200,
+            message: "目录添加成功",
+            data: {
+                categoryId: result._id
+            }
+        };
+        // await CategoryModel.create({
+        //     productId: parameter.productId
+        // })
         // const list = await ProductionModel.find();
         // const promotionList = await ProductionPromotionModel.find();
         // list.forEach(val => {
@@ -286,9 +311,55 @@ class production {
 
     async deleteCategory(ctx, next) {}
 
+    /* 推荐列表添加 */
+
+    async addRecommend(ctx, next) {
+        const parameter = await ctx.request.body;
+        let result = null;
+        if (parameter.recommendId) {
+            result = await RecommendModel.findOne({ _id: parameter.recommendId });
+            if (result.productionId.indexOf(parameter.productionId) === -1) {
+                result.productionId.push(parameter.productionId);
+                result.save();
+            }
+        } else {
+            result = await RecommendModel.create({
+                title: parameter.title,
+                englishTitle: parameter.englishTitle,
+                productionId: parameter.productionId
+            });
+        }
+        ctx.body = {
+            status: 200,
+            data: {
+                recommendId: result._id,
+                title: result.title
+            }
+        };
+    }
+
+    /* 删除推荐物品 */
+
+    async deleteRecommendThings(ctx, next) {}
+
+    /* 删除推荐目录 */
+
+    async deleteRecommendCategory(ctx, next) {}
+
     /* test router */
 
     async test(ctx, next) {
+        const res = await CategoryModel.collection.updateMany(
+            {},
+            {
+                $set: {
+                    categoryTitle: "",
+                    categoryEnglishTitle: ""
+                }
+            },
+            {}
+        );
+        console.log(res);
         /*
             https://stackoverflow.com/questions/43819186/c-sharp-mongodb-cartesian-product-of-multiple-object-array-documents
         */
@@ -381,7 +452,6 @@ class production {
         //     data: res
         // };
         // console.log(res);
-
         // ProductionModel.find({}, (err, data) => {
         //     data.map(async val => {
         //         ProductionSkuModel.find({}, (err, dataSku) => {

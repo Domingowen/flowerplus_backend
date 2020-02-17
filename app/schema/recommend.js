@@ -12,11 +12,11 @@ const RecommendSchema = new Schema({
         // 英文标题
         type: String
     },
-    productionId: {
+    productionId: [{
         // 产品ID
         type: Schema.Types.ObjectId,
         ref: "ProductionModel"
-    }
+    }]
 });
 const RecommendModel = model("RecommendModel", RecommendSchema);
 module.exports = RecommendModel;

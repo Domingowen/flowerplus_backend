@@ -22,6 +22,9 @@ const {
     deleteProductPromotion,
 
 
+    addRecommend,
+
+
     test,
 
 } = require("../controllers/production");
@@ -60,6 +63,7 @@ adminProductRouter.post("/admin/modify_product_attr_val_opt", modifyProductAttri
 adminProductRouter.post("/admin/delete_product_attr_val_opt", deleteProductAttributeValueOptions);
 
 adminProductRouter.post("/admin/create_product_category", createCategory);
+adminProductRouter.post("/admin/add_recommend", addRecommend);
 
 
 adminProductRouter.post("/admin/test", test);

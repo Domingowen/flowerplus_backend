@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     phone: {
         // 手机号码
         type: String,
-        required: true
+        // required: true
     },
     orderList: [
         {

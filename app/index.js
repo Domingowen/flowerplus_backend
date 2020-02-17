@@ -13,6 +13,8 @@ const cors = require("@koa/cors");
 const ip = require("ip");
 const qs = require("querystring");
 const clc = require("cli-color");
+const createError = require("http-errors");
+
 
 const formData = require("./utils/formidable");
 const redisClient = require('./redis/index');
@@ -28,7 +30,7 @@ MongoDB.then(res => {
 app.use(cors());
 app.use(serve(path.join(__dirname, "public")));
 app.use(Logger());
-
+// app.use(createError());
 app.use(
     KoaBody({
         fields: "body",

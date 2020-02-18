@@ -24,7 +24,7 @@ const https = require("https");
 const fs = require("fs");
 const enforceHttps = require("koa-sslify");
 
-app.use(enforceHttps());
+// app.use(enforceHttps());
 app.use(error());
 parameter(app); // 参数校验
 MongoDB.then(res => {
@@ -53,7 +53,7 @@ app.use(
 /* import router */
 routerCombine(app);
 
-app.listen(3000,() => {
+app.listen(3000, '127.0.0.1',() => {
     console.log("app starting" + "this request ip " + ip.address() + ":" + 3000);
 });
 // const options = {

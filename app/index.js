@@ -15,12 +15,16 @@ const qs = require("querystring");
 const clc = require("cli-color");
 const createError = require("http-errors");
 const http = require('http');
-const https = require('https');
+// const https = require('https');
 
 const formData = require("./utils/formidable");
 const redisClient = require('./redis/index');
 
+const https = require("https");
+const fs = require("fs");
+const enforceHttps = require("koa-sslify");
 
+app.use(enforceHttps());
 app.use(error());
 parameter(app); // 参数校验
 MongoDB.then(res => {
@@ -50,5 +54,15 @@ app.use(
 routerCombine(app);
 
 app.listen(3000,() => {
-    console.log("app starting" + "this request ip " + 3000);
+    console.log("app starting" + "this request ip " + ip.address() + ":" + 3000);
 });
+// const options = {
+//   key: fs.readFileSync('./app/ssl/ssl.key'),
+//   cert: fs.readFileSync('./app/ssl/ssl.pem')
+// };
+// https.createServer(options, app.callback()).listen(config.port, () => {
+//   // const host = server.address().address
+//   const host = config.host;
+//   const port = config.port;
+//   console.log(`应用实例，访问地址为 https://${host}:${port}`);
+// });

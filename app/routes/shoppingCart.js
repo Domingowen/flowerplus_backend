@@ -1,0 +1,10 @@
+const router = require('koa-router');
+const shoppingCartRouter = new router();
+const { cleanShoppingCart, listShoppingCart, sumbitOrder, addProduct, decreaseProduct, addToShoppingCart} = require("../controllers/shoppingCart");
+shoppingCartRouter.get("/shopping_cart/index", listShoppingCart);
+shoppingCartRouter.post('/shopping_cart/clean_all', cleanShoppingCart);
+shoppingCartRouter.post('/shopping_cart/add', addProduct);
+shoppingCartRouter.post('/shopping_cart/minus', decreaseProduct);
+shoppingCartRouter.post('/shopping_cart/add_to_shopping_cart', addToShoppingCart);
+shoppingCartRouter.post('/shopping_cart/sumbit', sumbitOrder);
+module.exports = shoppingCartRouter;

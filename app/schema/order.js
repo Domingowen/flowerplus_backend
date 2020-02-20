@@ -53,6 +53,9 @@ const OrderSchema = new Schema({
     addressId: {
         type: Schema.Types.ObjectId,
         ref: "AddressModel"
+    },
+    orderId: {
+        type: String
     }
 }, {
     timestamps: true

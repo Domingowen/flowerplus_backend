@@ -9,8 +9,9 @@ const ProductionSkuModel = require("../schema/production/production_sku");
 const CategoryModel = require("../schema/production/categories");
 const RecommendModel = require("../schema/recommend");
 const OrderModel = require("../schema/order");
-
 const UserModel = require("../schema/user.js");
+const shortid = require('shortid');
+
 class HomeController {
     /* 获取首页数据 */
     async homeIndex(ctx, next) {
@@ -85,6 +86,7 @@ class HomeController {
             productionId: parameter.productId,
             skuId: skuResult._id,
             addressId: addressResult.length > 0 ? addressResult[0]._id : null,
+            orderId: shortid.generate()
         });
         userResult.orderList.push(OrderResult._id);
         userResult.save();
@@ -93,7 +95,7 @@ class HomeController {
             status: 200,
             message: "订单生成成功",
             data: {
-                orderId: OrderResult._id
+                orderId: OrderResult.orderId
             }
         };
     }
@@ -101,7 +103,7 @@ class HomeController {
     async orderGet(ctx, next) {
         const parameter = ctx.query;
         console.log(parameter);
-        const OrderResult = await OrderModel.findOne({ _id: parameter.orderId }).populate({ path: "skuId addressId" });
+        const OrderResult = await OrderModel.findOne({ orderId: parameter.orderId }).populate({ path: "skuId addressId" });
         console.log(OrderResult);
         ctx.body = {
             status: 200,
@@ -117,7 +119,7 @@ class HomeController {
     async orderAddress(ctx, next) {
         const parameter = ctx.request.body;
         console.log(parameter);
-        const OrderResult = await OrderModel.findOne({ _id: parameter.orderId });
+        const OrderResult = await OrderModel.findOne({ orderId: parameter.orderId });
         OrderResult.addressId = parameter.addressId;
         await OrderResult.save();
         ctx.body = {
@@ -132,14 +134,14 @@ class HomeController {
     /* modify order */
     async orderModify(ctx, next) {
         const parameter = ctx.request.body;
-        const OrderResult = await OrderModel.findOne({ _id: parameter.orderId });
+        const OrderResult = await OrderModel.findOne({ orderId: parameter.orderId });
         OrderResult.status = parameter.status;
         await OrderResult.save();
         ctx.body = {
             status: 200,
             message: "订单提交成功",
             data: {
-                orderId: OrderResult._id
+                orderId: OrderResult.orderId
             }
         };
     }

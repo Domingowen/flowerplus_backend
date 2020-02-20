@@ -53,6 +53,6 @@ app.use(
 /* import router */
 routerCombine(app);
 
-app.listen(4000, '127.0.0.1',() => {
-    console.log("app starting" + "this request ip " + ip.address() + ":" + 4000);
+app.listen(3000, '0.0.0.0',() => {
+    console.log("app starting" + "this request ip " + ip.address() + ":" + 3000);
 });

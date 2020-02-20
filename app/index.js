@@ -53,16 +53,6 @@ app.use(
 /* import router */
 routerCombine(app);
 
-app.listen(3000, '127.0.0.1',() => {
-    console.log("app starting" + "this request ip " + ip.address() + ":" + 3000);
+app.listen(4000, '127.0.0.1',() => {
+    console.log("app starting" + "this request ip " + ip.address() + ":" + 4000);
 });
-// const options = {
-//   key: fs.readFileSync('./app/ssl/ssl.key'),
-//   cert: fs.readFileSync('./app/ssl/ssl.pem')
-// };
-// https.createServer(options, app.callback()).listen(config.port, () => {
-//   // const host = server.address().address
-//   const host = config.host;
-//   const port = config.port;
-//   console.log(`应用实例，访问地址为 https://${host}:${port}`);
-// });
